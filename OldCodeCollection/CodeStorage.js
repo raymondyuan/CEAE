@@ -1,63 +1,49 @@
-$('QID148').style.display = 'none'; // How to get the QID?
+// https://s.qualtrics.com/WRAPI/QuestionAPI/classes/Qualtrics%20JavaScript%20Question%20API.html
 
-Qualtrics.SurveyEngine.addOnload(function()
-{
-	/*Place Your Javascript Below This Line*/
-	var id = $('participantID0').innerHTML; //.innerHTML needs check
-	var booleanValue = id % 4;
-	
-	$('QR~QID160~1').value = booleanValue; // When to use '~'
+// Undisplay specific Question
+$('QID148').style.display = 'none';
 
-});
+// How to get the QID?
+http://www.qualtrics.com/university/researchsuite/developer-tools/custom-programming/survey-javascript-methods/
+
+
+// Change the context within id="demo" by a click
+<p id="demo" onclick="myFunction()">Click me to change my HTML content (innerHTML).</p>
+<script>
+function myFunction() {
+    document.getElementById("demo").innerHTML = "Paragraph changed!";
+}
+</script>
+
+$('QR~QID160~1').value = booleanValue; // When to use '~'?
 
 var value = (1.23456).toFixed(2); // value ← 1.23
 
 sliderInput("QID77", "QID78", "QID153", "5ftSeed", this); // component "slider" related
 
-
-// Large piece -- need to walk through
+// Need to walk through
 Qualtrics.SurveyEngine.addOnload(function()
-{	
-	
-	// if user selects "no" reset values
+{
+	// question click is a simple onclick handler attached to the question's container div
 	this.questionclick = function(event,element)
 	{
-		if(element.id == 'QR~QID98~2' || element.id == 'QR~QID98~3'){
-			$('QR~QID98~1~TEXT').value = '';
-			var input = $('QR~QID98~1~TEXT');
-			updateHTML(input, "PoultryHouse", "QID46", "QID106");
-		}
 	}
 	
+	// ???
 	jQuery('#QR\\~QID98\\~1\\~TEXT').on('propertychange keyup input paste', function(){
 		var numberOfHouses = $('QR~QID105~1').value;
-		numberOfHouses = numberOfHouses.replace(/,/g, '');
-		numberOfHouses = numberOfHouses.replace(/\s/g, '');
-		numberOfHouses = numberOfHouses.replace(/[^0-9\.]+/g, '');
-		if(isNaN(numberOfHouses))
-			numberOfHouses = 0;
-		var sqFt = $('QR~QID98~1~TEXT').value;
-		sqFt = sqFt.replace(/,/g, '');
-		sqFt = sqFt.replace(/\s/g, '');
-		sqFt = sqFt.replace(/[^0-9\.]+/g, '');
-		if(isNaN(sqFt))
-			sqFt = 0;
+		
+		// Replace strings
+		("AAABBBCCC").replace("BBB", "bbb");
+		.replace(/[^0-9\.]+/g, '');
+		
 		var input = parseFloat(numberOfHouses) * parseFloat(sqFt);
-		if(isNaN(input))
-			input = 0;
-		updateHTML(input, "PoultryHouse", "QID46", "QID106");
 	});
 });
 
 // Large piece -- need to walk through
 Qualtrics.SurveyEngine.addOnload(function()
 {	
-	var initValue = 0;
-	var input1 = 'QID105';
-	var input2 = 'QID98';
-	var sliderID = 'QID46';
-	var resultsID = 'QID106';
-	
 	// Fix Slider Labels
 	var newElement = '<table role="presentation" id="customLabel" style="width:100%" class="LabelDescriptions">\
 							<tbody>\
@@ -69,14 +55,13 @@ Qualtrics.SurveyEngine.addOnload(function()
 	jQuery('#' + sliderID + '\\~1\\~ResultsTd').prepend(newElement);
 	jQuery('#' + sliderID + '\\~1\\~result').addClass('sliderInput');
 	
-	// initialize slider value on survey
+	// Initialize slider value on survey
 	if(!parseInt($('QR~' + resultsID + '~5').value)){
 		$(sliderID + '~1~result').value = initValue;
 	}
 	else{
 		$(sliderID + '~1~result').value = $('QR~' + resultsID + '~5').value;
 	}
-	
 	
 	// Store the starting percent in the results, but only once.
 	if($('QR~' + resultsID + '~4').value != '')
@@ -190,7 +175,7 @@ Qualtrics.SurveyEngine.addOnload(function()
 // Large piece -- need to walk through
 Qualtrics.SurveyEngine.addOnload(function()
 {
-	/*Place Your Javascript Below This Line*/
+
 	var curQuestionID = this.getQuestionInfo().QuestionID;
 	$(curQuestionID).style.display = 'none';
 	var val = Math.floor(Math.random() * 6);
@@ -205,7 +190,7 @@ Qualtrics.SurveyEngine.addOnload(function()
 // Large piece -- need to walk through
 Qualtrics.SurveyEngine.addOnload(function()
 {
-	/*Place Your Javascript Below This Line*/
+
 
 	var curQuestionID=this.getQuestionInfo().QuestionID;
 	$(curQuestionID).style.display='none';
@@ -230,14 +215,14 @@ Qualtrics.SurveyEngine.addOnload(function()
 
 Qualtrics.SurveyEngine.addOnload(function()
 {
-	/*Place Your Javascript Below This Line*/
+
 	var chips1 = Qualtrics.SurveyEngine.getEmbeddedData("bidding_chips_1");
 	jQuery('.bidding_price_chips_1').html(chips1);
 });
 
 Qualtrics.SurveyEngine.addOnload(function()
 {
-	/*Place Your Javascript Below This Line*/
+
 	var number = Qualtrics.SurveyEngine.getEmbeddedData("number") + 1;
 	jQuery('#number').html(number);
 	jQuery('#viewcontext').click(function(event) {
