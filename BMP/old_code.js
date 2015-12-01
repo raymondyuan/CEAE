@@ -271,3 +271,97 @@ Qualtrics.SurveyEngine.addOnload(function()
 <span id="context5" class="hidden"><br><br>Beer sample B is binding.</span>
 <span id="context6" class="hidden"><br><br>Beer sample C is binding.</span>
 
+Qualtrics.SurveyEngine.addOnload(function()
+{	
+	
+	// if user selects "no" reset values
+	this.questionclick = function(event,element)
+	{
+		if(element.id == 'QR~QID98~2' || element.id == 'QR~QID98~3'){
+			$('QR~QID98~1~TEXT').value = '';
+			var input = $('QR~QID98~1~TEXT');
+			updateHTML(input, "PoultryHouse", "QID46", "QID106");
+		}
+	}
+	
+	jQuery('#QR\\~QID98\\~1\\~TEXT').on('propertychange keyup input paste', function(){
+		var numberOfHouses = $('QR~QID105~1').value;
+		numberOfHouses = numberOfHouses.replace(/,/g, '');
+		numberOfHouses = numberOfHouses.replace(/\s/g, '');
+		numberOfHouses = numberOfHouses.replace(/[^0-9\.]+/g, '');
+		if(isNaN(numberOfHouses))
+			numberOfHouses = 0;
+		var sqFt = $('QR~QID98~1~TEXT').value;
+		sqFt = sqFt.replace(/,/g, '');
+		sqFt = sqFt.replace(/\s/g, '');
+		sqFt = sqFt.replace(/[^0-9\.]+/g, '');
+		if(isNaN(sqFt))
+			sqFt = 0;
+		var input = parseFloat(numberOfHouses) * parseFloat(sqFt);
+		if(isNaN(input))
+			input = 0;
+		updateHTML(input, "PoultryHouse", "QID46", "QID106");
+	});
+});
+
+Qualtrics.SurveyEngine.addOnload(function()
+{
+	if($('QR~QID155~1').value == ''){
+		function randomNumbers(spanID, baseValue, resultsID){
+			var variations = new Array(0, .1, .2, .3, .4, -.1, -.2, -.3, -.4);
+			
+			var newValue = baseValue + (baseValue * variations[Math.floor((Math.random()*variations.length))]);
+			$(spanID).innerHTML = Math.round(newValue);
+			$(resultsID).value = Math.round(newValue);
+		}
+		
+		randomNumbers('tillageCropping', 120, 'QR~QID155~1');
+		randomNumbers('bufferTillage', 170, 'QR~QID155~2');
+		randomNumbers('cropBuffer', 175, 'QR~QID155~3');
+		randomNumbers('cropBufferTillage', 205, 'QR~QID155~4');
+	}
+	else{
+		function displayNumbers(spanID, displayValue){
+			$(spanID).innerHTML = displayValue;
+		}
+		
+		displayNumbers('tillageCropping', $('QR~QID155~1').value);
+		displayNumbers('bufferTillage', $('QR~QID155~2').value);
+		displayNumbers('cropBuffer', $('QR~QID155~3').value);
+		displayNumbers('cropBufferTillage', $('QR~QID155~4').value);
+		
+	}
+
+});
+
+// Complicated Structure; Need Clear Up 
+Qualtrics.SurveyEngine.addOnload(function()
+{
+	if($('QR~QID155~1').value == ''){
+		function randomNumbers(spanID, baseValue, resultsID){
+			var variations = new Array(0, .1, .2, .3, .4, -.1, -.2, -.3, -.4);
+			
+			var newValue = baseValue + (baseValue * variations[Math.floor((Math.random()*variations.length))]);
+			$(spanID).innerHTML = Math.round(newValue);
+			$(resultsID).value = Math.round(newValue);
+		}
+		
+		randomNumbers('tillageCropping', 120, 'QR~QID155~1');
+		randomNumbers('bufferTillage', 170, 'QR~QID155~2');
+		randomNumbers('cropBuffer', 175, 'QR~QID155~3');
+		randomNumbers('cropBufferTillage', 205, 'QR~QID155~4');
+	}
+	else{
+		function displayNumbers(spanID, displayValue){
+			$(spanID).innerHTML = displayValue;
+		}
+		
+		displayNumbers('tillageCropping', $('QR~QID155~1').value);
+		displayNumbers('bufferTillage', $('QR~QID155~2').value);
+		displayNumbers('cropBuffer', $('QR~QID155~3').value);
+		displayNumbers('cropBufferTillage', $('QR~QID155~4').value);
+		
+	}
+
+});
+
