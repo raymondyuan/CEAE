@@ -69,22 +69,41 @@ if( /Android|webOS|iPhone|iPad|iPod|IEMobile|Opera Mini|BlackBerry/i.test(naviga
 @requres: Because of how the Qualtrics API works these questions must
 		maintain the proper internal order of their choices.
 */
+/*
+@updated by: Mengyuan Ren
+@summary: the options of slider/calculation question has been changed
+*/
 function sliderInput(qid1, qid2, qid3, inputType, thisQuestion){
 	// Maintaining logic between questions
 	thisQuestion.questionclick = function(event,element){
 		// If "No" or N/A is selected reset values.
+		/*
 		if(element.id == 'QR~' + qid1 + '~2' || element.id == 'QR~' + qid1 + '~3'){
 			$('QR~' + qid1 + '~1~TEXT').value = '';
 			var input = $('QR~' + qid1 + '~1~TEXT');
 			updateHTML(input, inputType, qid2, qid3);
 		}
+		*/
+		if(element.id == 'QR~' + qid1 + '~3' || element.id == 'QR~' + qid1 + '~4'){
+			$('QR~' + qid1 + '~1~TEXT').value = '';
+			var input = $('QR~' + qid1 + '~1~TEXT');
+			updateHTML(input, inputType, qid2, qid3, 0);
+		}
 	}
-		
-	// When anything happens in the input box update the displays.
-	jQuery('#QR\\~' + qid1 + '\\~1\\~TEXT').on('propertychange keyup input paste', function(){
-		var input = $('QR~' + qid1 + '~1~TEXT');
-		updateHTML(input, inputType, qid2, qid3);
-	});
+	if(element.id == 'QR~' + qid1 + '~1'){
+		// When anything happens in the input box update the displays.
+		jQuery('#QR\\~' + qid1 + '\\~1\\~TEXT').on('propertychange keyup input paste', function(){
+			var input = $('QR~' + qid1 + '~1~TEXT');
+			updateHTML(input, inputType, qid2, qid3, 1);
+		});
+	}
+	if(element.id == 'QR~' + qid1 + '~2'){
+		// When anything happens in the input box update the displays.
+		jQuery('#QR\\~' + qid1 + '\\~2\\~TEXT').on('propertychange keyup input paste', function(){
+			var input = $('QR~' + qid1 + '~2~TEXT');
+			updateHTML(input, inputType, qid2, qid3, 2);
+		});
+	}
 }
 
 
@@ -152,7 +171,7 @@ function sliderQuestion(qid1, qid2, qid3, inputType, initValue, thisQuestion){
 			$('QR~' + qid3 + '~5').value = sliderValue;
 			
 			var input = $('QR~' + qid1 + '~1~TEXT');
-			updateHTML(input, inputType, qid2, qid3);	
+			updateHTML(input, inputType, qid2, qid3, 0);	
 		}
 	}
 
@@ -179,7 +198,8 @@ function commaSeparateNumber(val){
 // @param sliderID: ID of the slider question for this set.
 // @param resultID: ID of the results question for this set.
 // @modifies: The dynamic html elements for this set of questions.
-function updateHTML(inputObject, bufferInfo, sliderID, resultID){
+// Updated for more kinds of combo
+function updateHTML(inputObject, bufferInfo, sliderID, resultID, sideType){
 
 	var bufferLength = 0;
 	if(bufferInfo == "PoultryHouse")
@@ -203,14 +223,27 @@ function updateHTML(inputObject, bufferInfo, sliderID, resultID){
 	// based on which buffer combo is used for this set.
 	var bufferSize = 0;
 	
-	if(bufferInfo == "5ftSeed" || bufferInfo == "5ftSod" || bufferInfo == '5ftForest'){
-		bufferSize = (5 * 2);
+	if(sideType == 2) {
+		if(bufferInfo == "5ftSeed" || bufferInfo == "5ftSod" || bufferInfo == '5ftForest'){
+			bufferSize = (5 * 2);
+		}
+		else if(bufferInfo == "15ftSeed" || bufferInfo == "15ftSod" || bufferInfo == '15ftForest'){
+			bufferSize = (15 * 2);
+		}
+		else if(bufferInfo == "30ftSeed" || bufferInfo == "30ftSod" || bufferInfo == '30ftForest'){
+			bufferSize = (30 * 2);
+		}
 	}
-	else if(bufferInfo == "15ftSeed" || bufferInfo == "15ftSod" || bufferInfo == '15ftForest'){
-		bufferSize = (15 * 2);
-	}
-	else if(bufferInfo == "30ftSeed" || bufferInfo == "30ftSod" || bufferInfo == '30ftForest'){
-		bufferSize = (30 * 2);
+	else if(sideType == 1) {
+		if(bufferInfo == "5ftSeed" || bufferInfo == "5ftSod" || bufferInfo == '5ftForest'){
+			bufferSize = (5);
+		}
+		else if(bufferInfo == "15ftSeed" || bufferInfo == "15ftSod" || bufferInfo == '15ftForest'){
+			bufferSize = (15);
+		}
+		else if(bufferInfo == "30ftSeed" || bufferInfo == "30ftSod" || bufferInfo == '30ftForest'){
+			bufferSize = (30);
+		}
 	}
 		
 	var materialFactor = 0;
